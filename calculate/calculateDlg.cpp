@@ -56,7 +56,8 @@ CcalculateDlg::CcalculateDlg(CWnd* pParent /*=NULL*/)
 
 void CcalculateDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialogEx::DoDataExchange(pDX);
+  CDialogEx::DoDataExchange(pDX);
+  DDX_Control(pDX, IDC_COMBO_Operator, m_ComboOperator);
 }
 
 BEGIN_MESSAGE_MAP(CcalculateDlg, CDialogEx)
@@ -68,11 +69,9 @@ BEGIN_MESSAGE_MAP(CcalculateDlg, CDialogEx)
   ON_EN_CHANGE(IDC_EDIT_NumResult, &CcalculateDlg::OnEnChangeEditNumresult)
   ON_EN_CHANGE(IDC_EDIT_NumAdded2, &CcalculateDlg::OnEnChangeEditNumadded2)
   ON_BN_CLICKED(IDC_BUTTON_Reset, &CcalculateDlg::OnBnClickedButtonReset)
-  ON_BN_CLICKED(IDC_RADIO_Plus, &CcalculateDlg::OnBnClickedRadioPlus)
-  ON_BN_CLICKED(IDC_RADIO_Minus, &CcalculateDlg::OnBnClickedRadioMinus)
-  ON_BN_CLICKED(IDC_RADIO_Multiply, &CcalculateDlg::OnBnClickedRadioMultiply)
-  ON_BN_CLICKED(IDC_RADIO_Divide, &CcalculateDlg::OnBnClickedRadioDivide)
-  ON_BN_CLICKED(IDC_CHECK_HavePayed, &CcalculateDlg::OnBnClickedCheckHavepayed)
+  ON_CBN_SELCHANGE(IDC_COMBO_Operator, &CcalculateDlg::OnCbnSelchangeComboOperator)
+  ON_BN_CLICKED(IDC_BUTTON_Pay, &CcalculateDlg::OnBnClickedButtonPay)
+  ON_BN_CLICKED(IDC_BUTTON_OpenKey, &CcalculateDlg::OnBnClickedButtonOpenkey)
 END_MESSAGE_MAP()
 
 
@@ -108,6 +107,10 @@ BOOL CcalculateDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
+  m_ComboOperator.AddString(_T("+"));
+  m_ComboOperator.AddString(_T("-"));
+  m_ComboOperator.AddString(_T("*"));
+  m_ComboOperator.AddString(_T("/"));
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -173,17 +176,12 @@ void CcalculateDlg::OnEnChangeEditNumadded1()
   // TODO:  在此添加控件通知处理程序代码
 }
 
-//+   1
-//-   2
-//*   3
-///   4
-int nOperatorSymbol;
-bool bHavePayed  = false;
+static bool bHavePayed;
 
 void CcalculateDlg::OnBnClickedButtonCalculate()
 {
   // TODO: 在此添加控件通知处理程序代码
-  float fNumAdded1, fNumAdded2, fNumResult;
+  double fNumAdded1, fNumAdded2, fNumResult;
   CString sNumAdded1, sNumAdded2, sNumResult;
   
   GetDlgItemText(IDC_EDIT_NumAdded1, sNumAdded1);
@@ -191,26 +189,16 @@ void CcalculateDlg::OnBnClickedButtonCalculate()
   fNumAdded1 = atof(sNumAdded1);//GetDlgItemInt(IDC_EDIT_NumAdded1, NULL);
   fNumAdded2 = atof(sNumAdded2);//GetDlgItemInt(IDC_EDIT_NumAdded2, NULL);
 
-  if (BST_CHECKED == IsDlgButtonChecked(IDC_CHECK_HavePayed))
+  switch (m_ComboOperator.GetCurSel())
   {
-    // 勾选
-    bHavePayed = true;
-  }
-  else
-  {
-    bHavePayed = false;
-  }
-
-  switch (nOperatorSymbol)
-  {
-    case 1:
+    case 0:
     {
       fNumResult = fNumAdded1 + fNumAdded2;
       sNumResult.Format(_T("%.2f"), fNumResult);
       SetDlgItemText(IDC_EDIT_NumResult, sNumResult);
-      break;
-    }
-    case 2:
+    }break;
+
+    case 1:
     {
       if (bHavePayed)
       {
@@ -222,9 +210,9 @@ void CcalculateDlg::OnBnClickedButtonCalculate()
       {
         SetDlgItemText(IDC_EDIT_NumResult, "快去氪金！");
       }
-      break;
-    }
-    case 3:
+    }break;
+
+    case 2:
     {
       if (bHavePayed)
       {
@@ -236,9 +224,9 @@ void CcalculateDlg::OnBnClickedButtonCalculate()
       {
         SetDlgItemText(IDC_EDIT_NumResult, "快去氪金！");
       }
-      break;
-    }
-    case 4:
+    }break;
+
+    case 3:
     {
       if (bHavePayed)
       {
@@ -250,13 +238,12 @@ void CcalculateDlg::OnBnClickedButtonCalculate()
       {
         SetDlgItemText(IDC_EDIT_NumResult, "快去氪金！");
       }
-      break;
-    }
+    }break;
+
     default:
     {
       SetDlgItemText(IDC_EDIT_NumResult, "去选个操作啊QAQ");
-      break;
-    }
+    }break;
   }
 }
 
@@ -291,54 +278,72 @@ void CcalculateDlg::OnBnClickedButtonReset()
   SetDlgItemText(IDC_EDIT_NumResult, NULL);
 }
 
-
-void CcalculateDlg::OnBnClickedRadio4()
+void CcalculateDlg::OnCbnSelchangeComboOperator()
 {
   // TODO: 在此添加控件通知处理程序代码
 }
 
+int nAuthorizationKey;
 
-void CcalculateDlg::OnBnClickedRadioPlus()
+void CcalculateDlg::OnBnClickedButtonPay()
 {
   // TODO: 在此添加控件通知处理程序代码
-  nOperatorSymbol = 1;
+  MessageBox(_T("家里啥条件啊还氪金?有矿啊?送你一个破解密钥吧OvO"), _T("贫穷警告！"), MB_OK|MB_ICONWARNING);
+  
+  CString csWorkPath = GetModuleDir();
+  CString csFileName = csWorkPath + "\\authorization_key.key";
+
+  //写入随机数作为密钥
+  CStdioFile iofKeyFile;
+  iofKeyFile.Open(_T(csFileName), CFile::modeCreate | CFile::modeWrite);
+  srand(time(NULL));
+  nAuthorizationKey = rand();
+  CString sAuthorizationKey;
+  sAuthorizationKey.Format(_T("%d"), nAuthorizationKey);
+  iofKeyFile.WriteString(_T(sAuthorizationKey + "\n"));
+  iofKeyFile.Close();
+
+  MessageBox(_T("密钥生成成功: " + csFileName), MB_OK);
 }
 
 
-void CcalculateDlg::OnBnClickedRadioMinus()
+void CcalculateDlg::OnBnClickedButtonOpenkey()
 {
   // TODO: 在此添加控件通知处理程序代码
-  nOperatorSymbol = 2;
+  TCHAR szFilter[] = _T("密钥文件(*.key)|*.key|"); //打开充值密钥
+  CFileDialog fileDlg(TRUE, _T("key"), NULL, 0, szFilter, this);
+  CString strFilePath, csKeyRead, csKeyGenerate;
+  CStdioFile iofKeyFile;
+
+  if (IDOK == fileDlg.DoModal())
+  {
+    strFilePath = fileDlg.GetPathName();
+    //读取密钥随机数
+    iofKeyFile.Open(_T(strFilePath), CFile::modeRead);
+    iofKeyFile.ReadString(csKeyRead);
+    csKeyGenerate.Format(_T("%d"), nAuthorizationKey);
+    if (csKeyGenerate == csKeyRead)
+    {
+      MessageBox(_T("破解成功(*/ω＼*)"));
+      bHavePayed = true;
+    }
+    else
+    {
+      MessageBox(_T("别骗人，哼￣へ￣"));
+      bHavePayed = false;
+    }
+    iofKeyFile.Close();
+  }
 }
 
-
-void CcalculateDlg::OnBnClickedRadioMultiply()
+CString GetModuleDir()
 {
-  // TODO: 在此添加控件通知处理程序代码
-  nOperatorSymbol = 3;
-}
+  char pFileName[MAX_PATH];
+  int nPos = GetCurrentDirectory(MAX_PATH, pFileName);
 
-
-void CcalculateDlg::OnBnClickedRadioDivide()
-{
-  // TODO: 在此添加控件通知处理程序代码
-  nOperatorSymbol = 4;
-}
-
-
-void CcalculateDlg::OnBnClickedCheck2()
-{
-  // TODO: 在此添加控件通知处理程序代码
-}
-
-
-void CcalculateDlg::OnBnClickedCheckHavepayed()
-{
-  // TODO: 在此添加控件通知处理程序代码
-}
-
-
-void CcalculateDlg::OnBnClickedButton1()
-{
-  // TODO: 在此添加控件通知处理程序代码
+  CString csFullPath(pFileName);
+  if (nPos < 0)
+    return CString("");
+  else
+    return csFullPath;
 }

@@ -35,13 +35,10 @@ public:
   afx_msg void OnEnChangeEditNumresult();
   afx_msg void OnEnChangeEditNumadded2();
   afx_msg void OnBnClickedButtonReset();
-  afx_msg void OnBnClickedRadio4();
-  afx_msg void OnBnClickedRadioPlus();
-  afx_msg void OnBnClickedRadioMinus();
-  afx_msg void OnBnClickedRadioMultiply();
-  afx_msg void OnBnClickedRadioDivide();
-  afx_msg void OnBnClickedCheck2();
-  afx_msg void OnBnClickedCheckHavepayed();
-  afx_msg void OnBnClickedButton1();
-  afx_msg void OnBnClickedButtonGetvip();
+  afx_msg void OnCbnSelchangeComboOperator();
+  CComboBox m_ComboOperator;
+  afx_msg void OnBnClickedButtonPay();
+  afx_msg void OnBnClickedButtonOpenkey();
 };
+
+CString GetModuleDir();

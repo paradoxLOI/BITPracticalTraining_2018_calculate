@@ -22,9 +22,6 @@
     <None Include="res\calculate.ico">
       <Filter>资源文件</Filter>
     </None>
-    <None Include="res\MoneyPlz.bmp">
-      <Filter>资源文件</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="calculate.h">
@@ -60,7 +57,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\MoneyPlzUpdata.bmp">
+    <Image Include="res\MoneyPlz.bmp">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

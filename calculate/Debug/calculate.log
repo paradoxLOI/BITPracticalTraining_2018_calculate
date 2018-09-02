@@ -1,6 +1,3 @@
-﻿  calculate.cpp
-  calculateDlg.cpp
-d:\study\工程实践\2018\2018-08-31\calculate\calculate\calculatedlg.cpp(191): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-d:\study\工程实践\2018\2018-08-31\calculate\calculate\calculatedlg.cpp(192): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-  正在生成代码...
-  calculate.vcxproj -> D:\study\工程实践\2018\2018-08-31\calculate\Debug\calculate.exe
+﻿  calculateDlg.cpp
+d:\study\工程实践\2018\pay_for_calculate\calculate\calculatedlg.cpp(299): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
+  calculate.vcxproj -> D:\study\工程实践\2018\pay_for_calculate\Debug\calculate.exe
