@@ -208,7 +208,7 @@ void CcalculateDlg::OnBnClickedButtonCalculate()
       }
       else
       {
-        SetDlgItemText(IDC_EDIT_NumResult, "快去氪金！");
+        MessageBox(_T("快去氪金！(～￣▽￣)～"), _T("OvO"), MB_OK);
       }
     }break;
 
@@ -222,7 +222,7 @@ void CcalculateDlg::OnBnClickedButtonCalculate()
       }
       else
       {
-        SetDlgItemText(IDC_EDIT_NumResult, "快去氪金！");
+        MessageBox(_T("快去氪金！(～￣▽￣)～"), _T("OvO"), MB_OK);
       }
     }break;
 
@@ -236,13 +236,13 @@ void CcalculateDlg::OnBnClickedButtonCalculate()
       }
       else
       {
-        SetDlgItemText(IDC_EDIT_NumResult, "快去氪金！");
+        MessageBox(_T("快去氪金！(～￣▽￣)～"), _T("OvO"), MB_OK);
       }
     }break;
 
     default:
     {
-      SetDlgItemText(IDC_EDIT_NumResult, "去选个操作啊QAQ");
+      MessageBox(_T("去选个操作啊￣へ￣"), _T("OvO"), MB_OK);
     }break;
   }
 }
@@ -303,7 +303,7 @@ void CcalculateDlg::OnBnClickedButtonPay()
   iofKeyFile.WriteString(_T(sAuthorizationKey + "\n"));
   iofKeyFile.Close();
 
-  MessageBox(_T("密钥生成成功: " + csFileName), MB_OK);
+  MessageBox(_T("密钥生成成功: " + csFileName), _T("叮！"), MB_OK);
 }
 
 
@@ -324,12 +324,12 @@ void CcalculateDlg::OnBnClickedButtonOpenkey()
     csKeyGenerate.Format(_T("%d"), nAuthorizationKey);
     if (csKeyGenerate == csKeyRead)
     {
-      MessageBox(_T("破解成功(*/ω＼*)"));
+      MessageBox(_T("破解成功(*/ω＼*)"), _T("叮！"));
       bHavePayed = true;
     }
     else
     {
-      MessageBox(_T("别骗人，哼￣へ￣"));
+      MessageBox(_T("别骗人，哼￣へ￣"), _T("叮！"));
       bHavePayed = false;
     }
     iofKeyFile.Close();
